@@ -12,8 +12,3 @@
 <a href="https://dev.smt.docomo.ne.jp/?p=docs.api.page&api_name=text_to_speech&p_name=api_usage_scenario" target="_blank">docomo音声合成API</a>、
 <a href="https://dev.smt.docomo.ne.jp/?p=docs.api.page&api_name=speech_recognition&p_name=api_usage_scenario" target="_blank">docomo音声認識API</a></p>
 <p>アプリ内使用SDK：<a href="https://www.kudan.eu/download-kudan-ar-sdk/" target="_blank">Kudan AR SDK</a></p>　　
-
-  
-<img src= "Assets/UnityChan/SplashScreen/Logo/Light_Silhouette.png" width="200">　　
-
-このアプリは<a href="http://unity-chan.com/contents/license_jp/" target="_blank">ユニティちゃんライセンス条項</a>の元に提供されています。
