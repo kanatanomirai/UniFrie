@@ -4,7 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// 音声クラス
+/// <summary>
+/// 音声を管理するクラス。
+/// </summary>
 public class Voice : MonoBehaviour
 {
 
@@ -43,12 +45,18 @@ public class Voice : MonoBehaviour
         }
     }
 
-    public string createSSML(string text, Dictionary<string, string> dic)
+    /// <summary>
+    /// SSMLを生成する。
+    /// </summary>
+    public string CreateSSML(string text, Dictionary<string, string> dic)
     {
         return "<?xml version=\"1.0\" encoding=\"utf-8\" ?><speak version=\"1.1\"><voice name=\"maki\"><prosody pitch=\"1.5\" rate=\"0.85\">" + text + " </prosody></voice></speak>";
     }
 
-    private byte[] convertBytesEndian(byte[] bytes)
+    /// <summary>
+    /// エンディアン変換を行う。
+    /// </summary>
+    private byte[] ConvertBytesEndian(byte[] bytes)
     {
         byte[] newBytes = new byte[bytes.Length];
         for (int i = 0; i < bytes.Length; i += 2)
@@ -57,11 +65,14 @@ public class Voice : MonoBehaviour
             newBytes[i + 1] = bytes[i];
         }
         // 44byte付加したnewBytes
-        newBytes = addWAVHeader(newBytes);
+        newBytes = AddWavHeader(newBytes);
         return newBytes;
     }
 
-    private byte[] addWAVHeader(byte[] bytes)
+    /// <summary>
+    /// wavヘッダを追加する。
+    /// </summary>
+    private byte[] AddWavHeader(byte[] bytes)
     {
         byte[] header = new byte[44];
         // サンプリングレート
@@ -77,22 +88,22 @@ public class Voice : MonoBehaviour
         byte[] finalWAVBytes = new byte[bytes.Length + header.Length];
         int typeSize = System.Runtime.InteropServices.Marshal.SizeOf(bytes.GetType().GetElementType());
 
-        header[0] = convertByte("R");
-        header[1] = convertByte("I");
-        header[2] = convertByte("F");
-        header[3] = convertByte("F");
+        header[0] = ConvertByte("R");
+        header[1] = ConvertByte("I");
+        header[2] = ConvertByte("F");
+        header[3] = ConvertByte("F");
         header[4] = (byte)(totalDataLen & 0xff);
         header[5] = (byte)((totalDataLen >> 8) & 0xff);
         header[6] = (byte)((totalDataLen >> 16) & 0xff);
         header[7] = (byte)((totalDataLen >> 24) & 0xff);
-        header[8] = convertByte("W");
-        header[9] = convertByte("A");
-        header[10] = convertByte("V");
-        header[11] = convertByte("E");
-        header[12] = convertByte("f");
-        header[13] = convertByte("m");
-        header[14] = convertByte("t");
-        header[15] = convertByte(" ");
+        header[8] = ConvertByte("W");
+        header[9] = ConvertByte("A");
+        header[10] = ConvertByte("V");
+        header[11] = ConvertByte("E");
+        header[12] = ConvertByte("f");
+        header[13] = ConvertByte("m");
+        header[14] = ConvertByte("t");
+        header[15] = ConvertByte(" ");
         header[16] = 16;
         header[17] = 0;
         header[18] = 0;
@@ -113,10 +124,10 @@ public class Voice : MonoBehaviour
         header[33] = 0;
         header[34] = (byte)bits;
         header[35] = 0;
-        header[36] = convertByte("d");
-        header[37] = convertByte("a");
-        header[38] = convertByte("t");
-        header[39] = convertByte("a");
+        header[36] = ConvertByte("d");
+        header[37] = ConvertByte("a");
+        header[38] = ConvertByte("t");
+        header[39] = ConvertByte("a");
         header[40] = (byte)(dataLength & 0xff);
         header[41] = (byte)((dataLength >> 8) & 0xff);
         header[42] = (byte)((dataLength >> 16) & 0xff);
@@ -128,15 +139,21 @@ public class Voice : MonoBehaviour
         return finalWAVBytes;
     }
 
-    private byte convertByte(string str)
+    /// <summary>
+    /// 文字列をbyte型に変換する。
+    /// </summary>
+    private byte ConvertByte(string str)
     {
         return System.Text.Encoding.UTF8.GetBytes(str)[0];
     }
 
-    public AudioClip createAudioClip(byte[] bytes, string name)
+    /// <summary>
+    /// AudioClipを生成する。
+    /// </summary>
+    public AudioClip CreateAudioClip(byte[] bytes, string name)
     {
         byte[] wavBytes = new byte[bytes.Length + 44];
-        wavBytes = convertBytesEndian(bytes);
+        wavBytes = ConvertBytesEndian(bytes);
         Samples = bytes.Length / 2;
         return Create(name, wavBytes, 44, 16, Samples, 1, 16000, false, false);
     }

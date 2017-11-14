@@ -3,9 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-// 音声認識通信クラス
+/// <summary>
+/// 音声認識通信クラス。
+/// </summary>
+
 public class RecConnection : MonoBehaviour
 {
+    /// <summary>
+    /// 音声認識通信を開始する。
+    /// <param name="voiceData">音声データ</param>
+    /// </summary>
     public IEnumerator StartRecognition(byte[] voiceData)
     {
         Debug.Log("recognition!");
@@ -45,7 +52,7 @@ public class RecConnection : MonoBehaviour
         yield return request;
         Debug.Log(System.Text.RegularExpressions.Regex.Unescape(request.text));
 
-        string resultRecText = gameObject.GetComponent<RecognitionResult>().getRecognitionText(System.Text.RegularExpressions.Regex.Unescape(request.text));
+        string resultRecText = gameObject.GetComponent<RecognitionResult>().GetRecognitionText(System.Text.RegularExpressions.Regex.Unescape(request.text));
         Connection c = GameObject.Find("UnitychanText").GetComponent<Connection>();
         StartCoroutine(c.ConnectionStart(resultRecText));
     }

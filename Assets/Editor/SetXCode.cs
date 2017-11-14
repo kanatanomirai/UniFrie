@@ -3,9 +3,14 @@ using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEditor.iOS.Xcode;
 
+/// <summary>
+/// Xcodeの設定を行うクラス。
+/// </summary>
 static class SetXCode{
 
-    // プロジェクトのビルド後に修正を加える
+    /// <summary>
+    /// プロジェクトのビルド後に修正を加える。
+    /// </summary>
     [PostProcessBuild]
     public static void OnPostprocessBuild(BuildTarget platform, string projectPath)
     {
@@ -14,6 +19,9 @@ static class SetXCode{
         EditPlist(projectPath);
     }
 
+    /// <summary>
+    /// .plistファイルの編集を行う。
+    /// </summary>
     static void EditPlist(string projectPath)
     {
         var plistPath = Path.Combine(projectPath, "Info.plist");

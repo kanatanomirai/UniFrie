@@ -6,7 +6,9 @@ using UnityEngine.UI;
 using System;
 using System.IO;
 
-// 通信クラス
+/// <summary>
+/// 通信を行うクラス。
+/// </summary>
 public class Connection : MonoBehaviour
 {
 
@@ -15,8 +17,6 @@ public class Connection : MonoBehaviour
     // デバッグ用テキスト
     private Text debugText;
 
-
-
     void Start()
     {
         itObj = GameObject.Find("UnitychanText");
@@ -24,15 +24,18 @@ public class Connection : MonoBehaviour
         debugText = GameObject.FindWithTag("DebugText").GetComponent<Text>();
     }
 
-    //通信開始
-    public IEnumerator ConnectionStart(string str)
+    /// <summary>
+    /// APIとの通信を開始する。
+    /// <param name="text">会話テキスト</param>
+    /// </summary>
+    public IEnumerator ConnectionStart(string text)
     {
         WWWForm form = new WWWForm();
         if (Parameter.type == InputText.TextTypes.TalkAPI)
         {
             // TalkAPIの送信ステータス
             form.AddField("apikey", Parameter.talkAPIkey);
-            form.AddField("query", str);
+            form.AddField("query", text);
             UnityWebRequest request = UnityWebRequest.Post("https://api.a3rt.recruit-tech.co.jp/talk/v1/smalltalk", form);
 
             // リクエスト送信(TalkAPI)
@@ -47,8 +50,8 @@ public class Connection : MonoBehaviour
                 if (request.responseCode == 200)
                 {
                     Debug.Log("ok!");
-                    it.setText(request.downloadHandler.text, Parameter.type);
-                    yield return StartCoroutine("convertTextToVoice", it.FinalText);
+                    it.SetText(request.downloadHandler.text, Parameter.type);
+                    yield return StartCoroutine("ConvertTextToVoice", it.FinalText);
                 }
                 else
                 {
@@ -62,7 +65,7 @@ public class Connection : MonoBehaviour
             string context = it.Context;
             string mode = it.Mode;
 
-            string ourPostData = "{\"utt\":\"" + str + "\",\"context\":\"" + context + "\",\"mode\":\"" + mode + "\"}";
+            string ourPostData = "{\"utt\":\"" + text + "\",\"context\":\"" + context + "\",\"mode\":\"" + mode + "\"}";
 
             Dictionary<string, string> headers = new Dictionary<string, string>();
             // リクエストヘッダの変更
@@ -85,8 +88,8 @@ public class Connection : MonoBehaviour
                 {
                     Debug.Log("ok!");
                     // 返答を設定
-                    it.setText(request.text, Parameter.type);
-                    yield return StartCoroutine("convertTextToVoice", it.FinalText);
+                    it.SetText(request.text, Parameter.type);
+                    yield return StartCoroutine("ConvertTextToVoice", it.FinalText);
                 }
                 else
                 {
@@ -109,15 +112,18 @@ public class Connection : MonoBehaviour
         }
     }
 
-    // docomo音声合成API
-    public IEnumerator convertTextToVoice(string text)
+    /// <summary>
+    /// docomo音声合成APIでテキストを音声データに変換する。
+    /// <param name="text">会話テキスト</param>
+    /// </summary>
+    public IEnumerator ConvertTextToVoice(string text)
     {
         string url = "https://api.apigw.smt.docomo.ne.jp/aiTalk/v1/textToSpeech?APIKEY=" + Parameter.compositionAPIkey;
 
         Dictionary<string, string> aiTalksParams = new Dictionary<string, string>();
-  
+
         gameObject.AddComponent<Voice>();
-        var postData = gameObject.GetComponent<Voice>().createSSML(text, aiTalksParams);
+        var postData = gameObject.GetComponent<Voice>().CreateSSML(text, aiTalksParams);
         var data = System.Text.Encoding.UTF8.GetBytes(postData);
 
         Dictionary<string, string> headers = new Dictionary<string, string>();
@@ -132,7 +138,7 @@ public class Connection : MonoBehaviour
             yield break;
         }
 
-        AudioClip audioClip = gameObject.GetComponent<Voice>().createAudioClip(www.bytes, "test.wav");
+        AudioClip audioClip = gameObject.GetComponent<Voice>().CreateAudioClip(www.bytes, "test.wav");
 
         StartCoroutine(gameObject.GetComponent<Voice>().Play(audioClip, www.bytes.Length / 2));
     }

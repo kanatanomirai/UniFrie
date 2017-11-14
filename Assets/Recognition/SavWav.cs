@@ -6,7 +6,9 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Threading;
 
-// 音声変換クラス
+/// <summary>
+/// 音声変換クラス。
+/// </summary>
 public class SavWav
 {
 
@@ -43,7 +45,7 @@ public class SavWav
         //			MemoryStream memstrm = new MemoryStream ();
         bytesData = Convert(clipdata);
         //			memstrm.WriteTo (fileStream);
-        bytesData = AddWAVHeader(bytesData);
+        bytesData = AddWavHeader(bytesData);
         //		}
         Debug.Log("complete!");
         return bytesData; // TODO: return false if there's a failure saving the file
@@ -183,7 +185,7 @@ public class SavWav
 
     // //		fileStream.Close();
     // 	}
-    private byte[] AddWAVHeader(byte[] bytes)
+    private byte[] AddWavHeader(byte[] bytes)
     {
         byte[] header = new byte[44];
         long longSampleRate = 16000;
@@ -196,22 +198,22 @@ public class SavWav
         byte[] finalWAVBytes = new byte[bytes.Length + header.Length];
         int typeSize = System.Runtime.InteropServices.Marshal.SizeOf(bytes.GetType().GetElementType());
 
-        header[0] = convertByte("R");
-        header[1] = convertByte("I");
-        header[2] = convertByte("F");
-        header[3] = convertByte("F");
+        header[0] = ConvertByte("R");
+        header[1] = ConvertByte("I");
+        header[2] = ConvertByte("F");
+        header[3] = ConvertByte("F");
         header[4] = (byte)(totalDataLen & 0xff);
         header[5] = (byte)((totalDataLen >> 8) & 0xff);
         header[6] = (byte)((totalDataLen >> 16) & 0xff);
         header[7] = (byte)((totalDataLen >> 24) & 0xff);
-        header[8] = convertByte("W");
-        header[9] = convertByte("A");
-        header[10] = convertByte("V");
-        header[11] = convertByte("E");
-        header[12] = convertByte("f");
-        header[13] = convertByte("m");
-        header[14] = convertByte("t");
-        header[15] = convertByte(" ");
+        header[8] = ConvertByte("W");
+        header[9] = ConvertByte("A");
+        header[10] = ConvertByte("V");
+        header[11] = ConvertByte("E");
+        header[12] = ConvertByte("f");
+        header[13] = ConvertByte("m");
+        header[14] = ConvertByte("t");
+        header[15] = ConvertByte(" ");
         header[16] = 16;
         header[17] = 0;
         header[18] = 0;
@@ -232,10 +234,10 @@ public class SavWav
         header[33] = 0;
         header[34] = (byte)bits;
         header[35] = 0;
-        header[36] = convertByte("d");
-        header[37] = convertByte("a");
-        header[38] = convertByte("t");
-        header[39] = convertByte("a");
+        header[36] = ConvertByte("d");
+        header[37] = ConvertByte("a");
+        header[38] = ConvertByte("t");
+        header[39] = ConvertByte("a");
         header[40] = (byte)(dataLength & 0xff);
         header[41] = (byte)((dataLength >> 8) & 0xff);
         header[42] = (byte)((dataLength >> 16) & 0xff);
@@ -247,7 +249,7 @@ public class SavWav
         return finalWAVBytes;
     }
 
-    private byte convertByte(string str)
+    private byte ConvertByte(string str)
     {
         return System.Text.Encoding.UTF8.GetBytes(str)[0];
     }

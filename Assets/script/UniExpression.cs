@@ -1,7 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-// Unityちゃんの表情を管理するクラス
+
+/// <summary>
+/// Unityちゃんの表情を管理するクラス。
+/// </summary>
 public class UniExpression : MonoBehaviour
 {
 
@@ -23,8 +26,13 @@ public class UniExpression : MonoBehaviour
         smr_blw = obj.GetComponent<SkinnedMeshRenderer>();
     }
 
-    // 目の動き
-    public void moveEye(float endWeight, int coefficient, string blendShapeName)
+    /// <summary>
+    /// 目を動かす。
+    /// <param name="weight">目のシェイプのウェイト</param>
+    /// <param name="coefficient">係数</param>
+    /// <param name="blendShapeName">シェイプ名</param>
+    /// </summary>
+    public void MoveEye(float weight, int coefficient, string blendShapeName)
     {
         float currentWeight = smr_eye.GetBlendShapeWeight(smr_eye.sharedMesh.GetBlendShapeIndex(blendShapeName));
         float f;
@@ -36,9 +44,9 @@ public class UniExpression : MonoBehaviour
             return;
         }
 
-        if (currentWeight < endWeight)
+        if (currentWeight < weight)
         {
-            f = endWeight / coefficient;
+            f = weight / coefficient;
             addFlag = true;
         }
         else
@@ -49,13 +57,18 @@ public class UniExpression : MonoBehaviour
 
         for (int i = 0; i < coefficient; ++i)
         {
-            currentWeight = updateCurrentWeight(f, addFlag, currentWeight);
+            currentWeight = UpdateCurrentWeight(f, addFlag, currentWeight);
             smr_eye.SetBlendShapeWeight(smr_eye.sharedMesh.GetBlendShapeIndex(blendShapeName), currentWeight);
         }
     }
 
-    // まつ毛の動き
-    public void moveEl(float endWeight, int coefficient, string blendShapeName)
+    /// <summary>
+    /// まつ毛を動かす。
+    /// <param name="weight">まつ毛のシェイプのウェイト</param>
+    /// <param name="coefficient">係数</param>
+    /// <param name="blendShapeName">シェイプ名</param>
+    /// </summary>
+    public void MoveEl(float endWeight, int coefficient, string blendShapeName)
     {
         // 現在のブレンドシェイプウェイトを取得
         float currentWeight = smr_el.GetBlendShapeWeight(smr_el.sharedMesh.GetBlendShapeIndex(blendShapeName));
@@ -82,14 +95,19 @@ public class UniExpression : MonoBehaviour
         for (int i = 0; i < coefficient; ++i)
         {
             // 現在のブレンドシェイプウェイトを更新
-            currentWeight = updateCurrentWeight(f, addFlag, currentWeight);
+            currentWeight = UpdateCurrentWeight(f, addFlag, currentWeight);
             // 更新したブレンドシェイプウェイトを設定
             smr_el.SetBlendShapeWeight(smr_el.sharedMesh.GetBlendShapeIndex(blendShapeName), currentWeight);
         }
     }
 
-    // 眉の動き
-    public void moveBlw(float endWeight, int coefficient, string blendShapeName)
+    /// <summary>
+    /// 眉を動かす。
+    /// <param name="weight">眉のシェイプのウェイト</param>
+    /// <param name="coefficient">係数</param>
+    /// <param name="blendShapeName">シェイプ名</param>
+    /// </summary>
+    public void MoveBlw(float endWeight, int coefficient, string blendShapeName)
     {
         float currentWeight = smr_blw.GetBlendShapeWeight(smr_blw.sharedMesh.GetBlendShapeIndex(blendShapeName));
         float f;
@@ -114,13 +132,18 @@ public class UniExpression : MonoBehaviour
 
         for (int i = 0; i < coefficient; ++i)
         {
-            currentWeight = updateCurrentWeight(f, addFlag, currentWeight);
+            currentWeight = UpdateCurrentWeight(f, addFlag, currentWeight);
             smr_blw.SetBlendShapeWeight(smr_blw.sharedMesh.GetBlendShapeIndex(blendShapeName), currentWeight);
         }
     }
 
-    // ブレンドシェイプのウェイト更新
-    private float updateCurrentWeight(float f, bool addFlag, float currentWeight)
+    /// <summary>
+    /// シェイプのウェイトを更新する。
+    /// <param name="weight">更新量</param>
+    /// <param name="addFlag">加算するか減算するかのフラグ</param>
+    /// <param name="currentWeight">現在のウェイト</param>
+    /// </summary>
+    private float UpdateCurrentWeight(float f, bool addFlag, float currentWeight)
     {
         if (addFlag)
         {
@@ -130,12 +153,14 @@ public class UniExpression : MonoBehaviour
         {
             currentWeight -= f;
         }
-        
+
         return currentWeight;
     }
 
-    // デフォルトの表情にする
-    public void setDefaultFace()
+    /// <summary>
+    /// デフォルトの表情にする。
+    /// </summary>
+    public void SetDefaultFace()
     {
         for (int i = 0; i < smr_eye.sharedMesh.blendShapeCount; ++i)
         {

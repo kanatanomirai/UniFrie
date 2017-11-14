@@ -5,7 +5,9 @@ using UnityEngine.UI;
 using System.Text.RegularExpressions;
 using System;
 
-// テキスト・入力クラス
+/// <summary>
+/// テキストを管理するクラス。
+/// </summary>
 public class InputText : MonoBehaviour
 {
 
@@ -23,7 +25,9 @@ public class InputText : MonoBehaviour
     private string[] angryText = new string[10];
     private string[] reluxText = new string[10];
 
-    // テキストの種類
+    /// <summary>
+    /// テキストの種類。
+    /// </summary>
     public enum TextTypes
     {
         TalkAPI,
@@ -38,10 +42,12 @@ public class InputText : MonoBehaviour
         gameObject.AddComponent<Connection>();
         motion = GameObject.FindWithTag("Unitychan").GetComponent<UniMotion>();
         // 初期化
-        init();
+        Init();
     }
 
-    // プロパティ
+    /// <summary>
+    /// テキストの長さを設定するプロパティ。
+    /// </summary>
     public int TextLength
     {
         set
@@ -56,6 +62,9 @@ public class InputText : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 会話継続コンテキストを設定するプロパティ。
+    /// </summary>
     public string Context
     {
         set
@@ -70,6 +79,9 @@ public class InputText : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 会話モードを設定するプロパティ。
+    /// </summary>
     public string Mode
     {
         set
@@ -84,6 +96,9 @@ public class InputText : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 最終的な会話テキストを設定するプロパティ。
+    /// </summary>
     public string FinalText
     {
         set
@@ -98,14 +113,19 @@ public class InputText : MonoBehaviour
         }
     }
 
-    public void setText(string str, TextTypes type)
+    /// <summary>
+    /// 会話テキストの設定を行う。
+    /// <param name="comText">会話テキスト</param>
+    /// <param name="type">テキストタイプ</param>
+    /// </summary>
+    public void SetText(string comText, TextTypes type)
     {
 
         Match matchedObject;
         int group = 0;
 
         // UTF-8にする
-        string utfText = Regex.Unescape(str);
+        string utfText = Regex.Unescape(comText);
         Debug.Log(utfText);
         // 初期化
         matchedObject = Regex.Match(utfText, "");
@@ -133,7 +153,7 @@ public class InputText : MonoBehaviour
                 break;
         }
 
-        FinalText = fixMessage(FinalText);
+        FinalText = FixMessage(FinalText);
         // 最終的なテキスト
         text.text = FinalText;
         Debug.Log(text.text);
@@ -146,32 +166,41 @@ public class InputText : MonoBehaviour
 
         if (type != TextTypes.ExpressionText)
         {
-            setMotionOnText();
+            SetMotionOnText();
         }
     }
 
-    // 会話調整
-    private string fixMessage(string message)
+    /// <summary>
+    /// 会話テキストの調整を行う。
+    /// <param name="comText">会話テキスト</param>
+    /// </summary>
+    private string FixMessage(string comText)
     {
-        if (message.Contains("名前はゼロ"))
+        if (comText.Contains("名前はゼロ"))
         {
-            message = "私の名前はUnityちゃんだよ。よろしくね！";
+            comText = "私の名前はUnityちゃんだよ。よろしくね！";
         }
-        return message;
+        return comText;
     }
 
-    // 表情による返答を設定
-    public void setExpressionMessage(string expression)
+    /// <summary>
+    /// 表情による返答を設定する。
+    /// <param name="expression">表情</param>
+    /// </summary>
+    public void SetExpressionMessage(string expression)
     {
-        setText(getExpressionMessage(expression), TextTypes.ExpressionText);
-        StartCoroutine(gameObject.GetComponent<Connection>().convertTextToVoice(FinalText));
+        SetText(GetExpressionMessage(expression), TextTypes.ExpressionText);
+        StartCoroutine(gameObject.GetComponent<Connection>().ConvertTextToVoice(FinalText));
         // 触ったら会話はいったんリセット
         Context = "";
         Mode = "";
     }
 
-    // 表情による返答を取得
-    private string getExpressionMessage(string expression)
+    /// <summary>
+    /// 表情による返答を取得する。
+    /// <param name="expression">表情</param>
+    /// </summary>
+    private string GetExpressionMessage(string expression)
     {
         // 怒り
         if (expression.Equals("angry"))
@@ -187,7 +216,10 @@ public class InputText : MonoBehaviour
         return "";
     }
 
-    private void expressionText()
+    /// <summary>
+    /// 表情テキストを設定する。
+    /// </summary>
+    private void ExpressionText()
     {
         // 身体触ったテキスト
         angryText[0] = "やめてよっ 変態！";
@@ -214,14 +246,20 @@ public class InputText : MonoBehaviour
         reluxText[9] = "もっと頭なでてほしいな……";
     }
 
-    // 始めのテキスト
-    private void startText()
+    /// <summary>
+    /// 始めに喋るテキストを設定する。
+    /// </summary>
+    private void StartText()
     {
-        setText(setStartText(DateTime.Now), TextTypes.StartText);
-        StartCoroutine(gameObject.GetComponent<Connection>().convertTextToVoice(FinalText));
+        SetText(SetStartText(DateTime.Now), TextTypes.StartText);
+        StartCoroutine(gameObject.GetComponent<Connection>().ConvertTextToVoice(FinalText));
     }
 
-    private string setStartText(DateTime time)
+    /// <summary>
+    /// 時間帯による、始めに喋るテキストを設定する。
+    /// <param name="time">時刻</param>
+    /// </summary>
+    private string SetStartText(DateTime time)
     {
         // 時間によって変わる
         switch (time.Hour)
@@ -264,17 +302,21 @@ public class InputText : MonoBehaviour
         }
     }
 
-    private void init()
+    /// <summary>
+    /// 初期化を行う。
+    /// </summary>
+    private void Init()
     {
         Context = "";
         Mode = "";
         FinalText = "";
-        expressionText();
+        ExpressionText();
         //        startText();
     }
-
-    // テキストによって表情やモーションを変える
-    private void setMotionOnText()
+    /// <summary>
+    ///  テキストによって、表情やモーションを変える。
+    /// </summary>
+    private void SetMotionOnText()
     {
         int motionNum = UnityEngine.Random.Range(0, 10);
 
@@ -282,29 +324,29 @@ public class InputText : MonoBehaviour
         {
             case 2:
             case 6:
-                motion.setMotion("scornful", 1);
+                motion.SetMotion("scornful", 1);
                 break;
             case 8:
-                motion.setMotion("smile", 1);
+                motion.SetMotion("smile", 1);
                 break;
             default:
                 motionNum = UnityEngine.Random.Range(0, 10);
 
-                motion.defaultMotion();
+                motion.DefaultMotion();
 
                 switch (motionNum)
                 {
                     case 2:
-                        motion.setMotion("hugOfPosture", 1);
+                        motion.SetMotion("hugOfPosture", 1);
                         break;
                     case 5:
-                        motion.setMotion("raiseHand", 1);
+                        motion.SetMotion("raiseHand", 1);
                         break;
                     case 8:
-                        motion.setMotion("handToMouth", 1);
+                        motion.SetMotion("handToMouth", 1);
                         break;
                     default:
-                        motion.setMotion("default", 1);
+                        motion.SetMotion("default", 1);
                         break;
                 }
                 break;

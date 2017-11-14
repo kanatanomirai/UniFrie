@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-// さまざまなパラメータを管理するクラス
+/// <summary>
+/// さまざまなパラメータを管理するクラス。
+/// </summary>
 public class Parameter : MonoBehaviour
 {
     // Unityちゃんが動いているか
@@ -21,9 +23,8 @@ public class Parameter : MonoBehaviour
     public static readonly string talkAPIkey = "";
     // 音声合成APIのAPIキー
     public static readonly string compositionAPIkey = "";
-    // API種類(TalkAPI、DocomoAPI)
+    // テキストタイプ（API）
     public static readonly InputText.TextTypes type = InputText.TextTypes.DocomoAPI;
-
 
     private Text debugText;
 

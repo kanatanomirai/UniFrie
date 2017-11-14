@@ -3,13 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-// 音声録音クラス
+/// <summary>
+/// 音声を録音するクラス。
+/// </summary>
 public class VoiceRecord : MonoBehaviour
 {
 
     private AudioSource audioSource;
 
-    // 音声録音開始
+    /// <summary>
+    /// 音声録音を開始する。
+    /// </summary>
     public void OnClickRec()
     {
         audioSource = GameObject.Find("SimpleUI").GetComponent<AudioSource>();
@@ -22,7 +26,9 @@ public class VoiceRecord : MonoBehaviour
         audioSource.clip = Microphone.Start(Microphone.devices[0], true, 9, 16000);
     }
 
-    // 音声録音終了
+    /// <summary>
+    /// 音声録音を終了する。
+    /// </summary>
     public void StopRec()
     {
         audioSource = GameObject.Find("SimpleUI").GetComponent<AudioSource>();

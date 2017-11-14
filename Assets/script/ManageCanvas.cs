@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// キャンバスを管理するクラス。
+/// </summary>
 public class ManageCanvas : MonoBehaviour
 {
     private static Canvas canvas;
@@ -12,7 +15,11 @@ public class ManageCanvas : MonoBehaviour
         canvas = this.GetComponent<Canvas>();
     }
 
-    /// 表示・非表示を設定する
+    /// <summary>
+    /// オブジェクトの表示・非表示を設定する。
+    /// <param name="name">オブジェクト名</param>
+    /// <param name="b">表示フラグ</param>
+    /// </summary>
     public static void SetActive(string name, bool b)
     {
         foreach (Transform child in canvas.transform)
@@ -31,7 +38,11 @@ public class ManageCanvas : MonoBehaviour
         Debug.LogWarning("Not found objname:" + name);
     }
 
-    /// テキストを変更する
+    /// <summary>
+    /// オブジェクトのテキストを変更する。
+    /// <param name="name">オブジェクト名</param>
+    /// <param name="text">変更するテキスト</param>
+    /// </summary>
     public static void SetText(string name, string text)
     {
         foreach (Transform child in canvas.transform)

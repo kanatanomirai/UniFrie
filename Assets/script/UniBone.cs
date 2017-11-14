@@ -1,11 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-// Unityちゃんの動きを管理するクラス
+
+/// <summary>
+/// Unityちゃんの動きを管理するクラス。
+/// </summary>
+
 public class UniBone : MonoBehaviour
 {
-    // unityちゃんのボーン
     [SerializeField]
+    // unityちゃんのボーン
     private GameObject[] bones;
 
     private Vector3[] vec;
@@ -20,39 +24,60 @@ public class UniBone : MonoBehaviour
         {
             vec[i] = bones[i].transform.localEulerAngles;
             unitychanBones.Add(bones[i], vec[i]);
-//            Debug.Log("awake:" + bones[i].name + ":" + vec[i]);
+            //            Debug.Log("awake:" + bones[i].name + ":" + vec[i]);
         }
     }
 
 
-    // 回転するボーンを決定
-    public void decideRotationBone(string boneName, string axis, float radian, float time, float delay)
+    /// <summary>
+    /// 回転するボーンを決定する。
+    /// <param name="boneName">ボーン名</param>
+    /// <param name="axis">ボーンの軸</param>
+    /// <param name="radian">ボーンを動かす角度</param>
+    /// <param name="time">ボーンを動かす時間</param>
+    /// <param name="delay">ボーンを動かす待ち時間</param>
+    /// </summary>
+    public void DecideRotationBone(string boneName, string axis, float radian, float time, float delay)
     {
         for (int i = 0; i < bones.Length; ++i)
         {
             if (bones[i].name.Equals(boneName))
             {
-                rotateBone(bones[i], axis, radian, time, delay);
+                RotateBone(bones[i], axis, radian, time, delay);
                 return;
             }
         }
     }
 
-    // 回転するボーンを決定（複数）
-    public void decideRotationBones(string boneName, string axis, float[] radian, float time, float delay)
+    /// <summary>
+    /// 回転するボーンを決定する。（複数）
+    /// <param name="boneName">ボーン名</param>
+    /// <param name="axis">ボーンの軸</param>
+    /// <param name="radian">ボーンを動かす角度</param>
+    /// <param name="time">ボーンを動かす時間</param>
+    /// <param name="delay">ボーンを動かす待ち時間</param>
+    /// </summary>
+    public void DecideRotationBones(string boneName, string axis, float[] radian, float time, float delay)
     {
         for (int i = 0; i < bones.Length; ++i)
         {
             if (bones[i].name.Equals(boneName))
             {
-                rotateBones(bones[i], axis, radian, time, delay);
+                RotateBones(bones[i], axis, radian, time, delay);
                 return;
             }
         }
     }
 
-    // ボーンの回転を行う
-    private void rotateBone(GameObject obj, string axis, float radian, float time, float delay)
+    /// <summary>
+    /// ボーンの回転を行う。
+    /// <param name="boneName">ボーン名</param>
+    /// <param name="axis">ボーンの軸</param>
+    /// <param name="radian">ボーンを動かす角度</param>
+    /// <param name="time">ボーンを動かす時間</param>
+    /// <param name="delay">ボーンを動かす待ち時間</param>
+    /// </summary>
+    private void RotateBone(GameObject obj, string axis, float radian, float time, float delay)
     {
         if (axis.Equals("x"))
         {
@@ -72,8 +97,15 @@ public class UniBone : MonoBehaviour
         }
     }
 
-    // 複数ボーンの回転を行う
-    private void rotateBones(GameObject obj, string axis, float[] radians, float time, float delay)
+    /// <summary>
+    /// 複数ボーンの回転を行う。
+    /// <param name="boneName">ボーン名</param>
+    /// <param name="axis">ボーンの軸</param>
+    /// <param name="radian">ボーンを動かす角度</param>
+    /// <param name="time">ボーンを動かす時間</param>
+    /// <param name="delay">ボーンを動かす待ち時間</param>
+    /// </summary>
+    private void RotateBones(GameObject obj, string axis, float[] radians, float time, float delay)
     {
         switch (axis)
         {
@@ -92,15 +124,18 @@ public class UniBone : MonoBehaviour
         }
     }
 
-    // デフォルトに戻す
-    public void setDefaultMotion(float delay)
+    /// <summary>
+    /// ボーンをデフォルトに戻す。
+    /// <param name="delay">ボーンを動かす待ち時間</param>
+    /// </summary>
+    public void SetDefaultMotion(float delay)
     {
         for (int i = 0; i < bones.Length; ++i)
         {
             // Debug.Log("mae:" + bones[i].name + ":" + vec[i]);
             // Debug.Log("mae:" + bones[i].name + ":" + unitychanBones[bones[i]]);
             // デフォルト値に回転
-            rotateBones(bones[i], "xyz", new float[3] { 0, 0, 0 }, 1.5f, delay);
+            RotateBones(bones[i], "xyz", new float[3] { 0, 0, 0 }, 1.5f, delay);
             // Debug.Log("usiro:" + bones[i].name + ":" + vec[i]);
             // Debug.Log("usiro:" + bones[i].name + ":" + unitychanBones[bones[i]]);
         }

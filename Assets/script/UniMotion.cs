@@ -1,7 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-// Unityちゃんのモーションを設定するクラス
+
+/// <summary>
+/// Unityちゃんのモーションを設定するクラス。
+/// </summary>
 public class UniMotion : MonoBehaviour
 {
     // 制御用時間
@@ -30,7 +33,7 @@ public class UniMotion : MonoBehaviour
         {
             if (timeLeft == 25.0f)
             {
-                StartCoroutine("blink");
+                StartCoroutine("Blink");
             }
             // Unityちゃんの回転
             unitychanObj.transform.rotation = Quaternion.identity;
@@ -42,9 +45,9 @@ public class UniMotion : MonoBehaviour
             if (timeLeft <= 0.0)
             {
                 timeLeft = 20.0f;
-                defaultFace();
-                defaultMotion();
-                setStandbyMotion();
+                DefaultFace();
+                DefaultMotion();
+                SetStandbyMotion();
             }
 
             if (Parameter.isTalking)
@@ -55,28 +58,28 @@ public class UniMotion : MonoBehaviour
             switch (motionName)
             {
                 case "smile":
-                    smileFace();
+                    SmileFace();
                     break;
                 case "female":
-                    femaleFace();
+                    FemaleFace();
                     break;
                 case "angry":
-                    angryFace();
+                    AngryFace();
                     break;
                 case "scornful":
-                    scornfulFace();
+                    ScornfulFace();
                     break;
                 case "default":
-                    defaultFace();
+                    DefaultFace();
                     break;
                 case "raiseHand":
-                    raiseHand();
+                    RaiseHand();
                     break;
                 case "handToMouth":
-                    handToMouth();
+                    HandToMouth();
                     break;
                 case "hugOfPosture":
-                    hugOfPosture();
+                    HugOfPosture();
                     break;
                 default:
                     break;
@@ -90,65 +93,77 @@ public class UniMotion : MonoBehaviour
         }
     }
 
-    // 照れ顔
-    private void femaleFace()
+    /// <summary>
+    /// テレ顔にする。
+    /// </summary>
+    private void FemaleFace()
     {
         Parameter.isExpressChanging = true;
-        gameObject.GetComponent<UniExpression>().moveBlw(20, 1, "blendShape3.BLW_SMILE2");
-        gameObject.GetComponent<UniExpression>().moveBlw(90, 1, "blendShape3.BLW_SMILE2");
-        gameObject.GetComponent<UniExpression>().moveEye(25, 1, "blendShape2.EYE_SMILE1");
-        gameObject.GetComponent<UniExpression>().moveEl(75, 1, "blendShape2.EYE_SMILE1");
+        gameObject.GetComponent<UniExpression>().MoveBlw(20, 1, "blendShape3.BLW_SMILE2");
+        gameObject.GetComponent<UniExpression>().MoveBlw(90, 1, "blendShape3.BLW_SMILE2");
+        gameObject.GetComponent<UniExpression>().MoveEye(25, 1, "blendShape2.EYE_SMILE1");
+        gameObject.GetComponent<UniExpression>().MoveEl(75, 1, "blendShape2.EYE_SMILE1");
     }
 
-    // デフォルトモーション
-    public void defaultMotion()
+    /// <summary>
+    /// デフォルトモーションにする。
+    /// </summary>
+    public void DefaultMotion()
     {
         Parameter.isMoving = false;
-        gameObject.GetComponent<UniBone>().setDefaultMotion(0);
+        gameObject.GetComponent<UniBone>().SetDefaultMotion(0);
     }
 
-    // 笑顔
-    private void smileFace()
+    /// <summary>
+    /// 笑顔にする。
+    /// </summary>
+    private void SmileFace()
     {
         Parameter.isExpressChanging = true;
-        gameObject.GetComponent<UniExpression>().moveEye(100, 1, "blendShape2.EYE_SMILE1");
-        gameObject.GetComponent<UniExpression>().moveEl(100, 1, "blendShape2.EYE_SMILE1");
+        gameObject.GetComponent<UniExpression>().MoveEye(100, 1, "blendShape2.EYE_SMILE1");
+        gameObject.GetComponent<UniExpression>().MoveEl(100, 1, "blendShape2.EYE_SMILE1");
     }
 
-    // 怒り顔
-    private void angryFace()
+    /// <summary>
+    /// 怒り顔にする。
+    /// </summary>
+    private void AngryFace()
     {
         Parameter.isExpressChanging = true;
-        gameObject.GetComponent<UniExpression>().moveBlw(100, 1, "blendShape3.BLW_ANG1");
-        gameObject.GetComponent<UniExpression>().moveBlw(50, 1, "blendShape3.BLW_ANG2");
-        gameObject.GetComponent<UniExpression>().moveEye(100, 1, "blendShape2.EYE_ANG1");
-        gameObject.GetComponent<UniExpression>().moveEl(100, 1, "blendShape2.EYE_ANG1");
+        gameObject.GetComponent<UniExpression>().MoveBlw(100, 1, "blendShape3.BLW_ANG1");
+        gameObject.GetComponent<UniExpression>().MoveBlw(50, 1, "blendShape3.BLW_ANG2");
+        gameObject.GetComponent<UniExpression>().MoveEye(100, 1, "blendShape2.EYE_ANG1");
+        gameObject.GetComponent<UniExpression>().MoveEl(100, 1, "blendShape2.EYE_ANG1");
     }
 
-    // ジト顔
-    private void scornfulFace()
+    /// <summary>
+    /// ジト顔にする。
+    /// </summary>
+    private void ScornfulFace()
     {
         Parameter.isExpressChanging = true;
-        gameObject.GetComponent<UniExpression>().moveBlw(100, 1, "blendShape3.BLW_SMILE2");
-        gameObject.GetComponent<UniExpression>().moveEye(35, 1, "blendShape2.EYE_DEF_C");
-        gameObject.GetComponent<UniExpression>().moveEl(100, 1, "blendShape2.EYE_SMILE2");
-        gameObject.GetComponent<UniExpression>().moveEl(100, 1, "blendShape2.EYE_ANG1");
-        gameObject.GetComponent<UniExpression>().moveEl(35, 1, "blendShape2.EYE_DEF_C");
+        gameObject.GetComponent<UniExpression>().MoveBlw(100, 1, "blendShape3.BLW_SMILE2");
+        gameObject.GetComponent<UniExpression>().MoveEye(35, 1, "blendShape2.EYE_DEF_C");
+        gameObject.GetComponent<UniExpression>().MoveEl(100, 1, "blendShape2.EYE_SMILE2");
+        gameObject.GetComponent<UniExpression>().MoveEl(100, 1, "blendShape2.EYE_ANG1");
+        gameObject.GetComponent<UniExpression>().MoveEl(35, 1, "blendShape2.EYE_DEF_C");
     }
 
-    // まばたき
-    public IEnumerator blink()
+    /// <summary>
+    /// まばたきをする。
+    /// </summary>
+    public IEnumerator Blink()
     {
         while (true)
         {
             if (Parameter.isAppearing && !Parameter.isExpressChanging)
             {
                 interval = 3.0f + UnityEngine.Random.Range(-1.0f, 1.0f);
-                gameObject.GetComponent<UniExpression>().moveEye(85, 5, "blendShape2.EYE_DEF_C");
-                gameObject.GetComponent<UniExpression>().moveEl(85, 5, "blendShape2.EYE_DEF_C");
+                gameObject.GetComponent<UniExpression>().MoveEye(85, 5, "blendShape2.EYE_DEF_C");
+                gameObject.GetComponent<UniExpression>().MoveEl(85, 5, "blendShape2.EYE_DEF_C");
                 yield return new WaitForSeconds(whileBlink);
-                gameObject.GetComponent<UniExpression>().moveEye(0, 5, "blendShape2.EYE_DEF_C");
-                gameObject.GetComponent<UniExpression>().moveEl(0, 5, "blendShape2.EYE_DEF_C");
+                gameObject.GetComponent<UniExpression>().MoveEye(0, 5, "blendShape2.EYE_DEF_C");
+                gameObject.GetComponent<UniExpression>().MoveEl(0, 5, "blendShape2.EYE_DEF_C");
                 yield return new WaitForSeconds(interval);
             }
             else
@@ -158,96 +173,119 @@ public class UniMotion : MonoBehaviour
         }
     }
 
-    // デフォルト顔
-    private void defaultFace()
+    /// <summary>
+    /// デフォルトの顔にする。
+    /// </summary>
+    private void DefaultFace()
     {
         Parameter.isExpressChanging = false;
-        gameObject.GetComponent<UniExpression>().setDefaultFace();
+        gameObject.GetComponent<UniExpression>().SetDefaultFace();
     }
 
-    // モーションの設定
-    public void setMotion(string motionName, float smoothness)
+    /// <summary>
+    /// モーション設定を行う。
+    /// </summary>
+    public void SetMotion(string motionName, float smoothness)
     {
         this.motionName = motionName;
         this.smoothness = smoothness;
-        gameObject.GetComponent<UniExpression>().setDefaultFace();
+        gameObject.GetComponent<UniExpression>().SetDefaultFace();
     }
 
-    // 見渡す
-    private void overlooking()
+    /// <summary>
+    /// 見渡すモーションをする。
+    /// </summary>
+    private void Overlooking()
     {
         Parameter.isMoving = true;
-        gameObject.GetComponent<UniBone>().decideRotationBone("Character1_Spine", "x", -12, 2.0f, 0);
-        gameObject.GetComponent<UniBone>().decideRotationBone("Character1_Spine", "x", 12, 3.0f, 3);
-        gameObject.GetComponent<UniBone>().decideRotationBone("Character1_Spine", "x", 0, 2.0f, 9);
+        gameObject.GetComponent<UniBone>().DecideRotationBone("Character1_Spine", "x", -12, 2.0f, 0);
+        gameObject.GetComponent<UniBone>().DecideRotationBone("Character1_Spine", "x", 12, 3.0f, 3);
+        gameObject.GetComponent<UniBone>().DecideRotationBone("Character1_Spine", "x", 0, 2.0f, 9);
     }
 
-    // ハグしよ？
-    private void hugOfPosture()
+    /// <summary>
+    /// 手を前に出すモーションをする。
+    /// </summary>
+    private void HugOfPosture()
     {
         Parameter.isMoving = true;
-        gameObject.GetComponent<UniBone>().decideRotationBone("Character1_RightHand", "x", 50, 1.5f, 0);
-        gameObject.GetComponent<UniBone>().decideRotationBones("Character1_RightArm", "xz", new float[2]{10, -65}, 1.5f, 0);
-        gameObject.GetComponent<UniBone>().decideRotationBone("Character1_LeftHand", "x", -50, 1.5f, 0);
-        gameObject.GetComponent<UniBone>().decideRotationBones("Character1_LeftArm", "xz", new float[2]{-10, -65}, 1.5f, 0);
+        gameObject.GetComponent<UniBone>().DecideRotationBone("Character1_RightHand", "x", 50, 1.5f, 0);
+        gameObject.GetComponent<UniBone>().DecideRotationBones("Character1_RightArm", "xz", new float[2] { 10, -65 }, 1.5f, 0);
+        gameObject.GetComponent<UniBone>().DecideRotationBone("Character1_LeftHand", "x", -50, 1.5f, 0);
+        gameObject.GetComponent<UniBone>().DecideRotationBones("Character1_LeftArm", "xz", new float[2] { -10, -65 }, 1.5f, 0);
     }
 
-    // 手をあげる
-    private void raiseHand(){
-        Parameter.isMoving = true;  
-        gameObject.GetComponent<UniBone>().decideRotationBones("Character1_RightArm", "yz", new float[2]{120, -30}, 1.0f, 0);
-        gameObject.GetComponent<UniBone>().decideRotationBone("Character1_RightHand", "x", 80, 1.0f, 0);        
-        smileFace();
-    }
-
-    // 手を口にあてる
-    private void handToMouth(){
+    /// <summary>
+    /// 手をあげるモーションをする。
+    /// </summary>
+    private void RaiseHand()
+    {
         Parameter.isMoving = true;
-        gameObject.GetComponent<UniBone>().decideRotationBone("Character1_RightHand", "x", 90, 1.5f, 0);
-        gameObject.GetComponent<UniBone>().decideRotationBones("Character1_RightArm", "yz", new float[2]{-8, -47}, 1.5f, 0);
-        gameObject.GetComponent<UniBone>().decideRotationBones("Character1_RightForeArm", "xz", new float[2]{-20, -155}, 1.5f, 0);
-        smileFace();                              
+        gameObject.GetComponent<UniBone>().DecideRotationBones("Character1_RightArm", "yz", new float[2] { 120, -30 }, 1.0f, 0);
+        gameObject.GetComponent<UniBone>().DecideRotationBone("Character1_RightHand", "x", 80, 1.0f, 0);
+        SmileFace();
     }
 
-    // 手を組んで伸び
-    private IEnumerator streach(){
-        defaultFace();
+    /// <summary>
+    /// 手を口にあてるモーションをする。
+    /// </summary>
+    private void HandToMouth()
+    {
+        Parameter.isMoving = true;
+        gameObject.GetComponent<UniBone>().DecideRotationBone("Character1_RightHand", "x", 90, 1.5f, 0);
+        gameObject.GetComponent<UniBone>().DecideRotationBones("Character1_RightArm", "yz", new float[2] { -8, -47 }, 1.5f, 0);
+        gameObject.GetComponent<UniBone>().DecideRotationBones("Character1_RightForeArm", "xz", new float[2] { -20, -155 }, 1.5f, 0);
+        SmileFace();
+    }
+
+    /// <summary>
+    /// 手を組んで伸びをするモーションをする。
+    /// </summary>
+    private IEnumerator Streach()
+    {
+        DefaultFace();
         Parameter.isMoving = true;
         Parameter.isExpressChanging = true;
-        yield return new WaitForSeconds(0.05f);  
-        
-        gameObject.GetComponent<UniBone>().decideRotationBones("Character1_LeftArm", "yz", new float[2]{20, -155}, 2.0f, 0);
-        gameObject.GetComponent<UniBone>().decideRotationBones("Character1_RightArm", "yz", new float[2]{-20, -155}, 2.0f, 0);
-        gameObject.GetComponent<UniBone>().decideRotationBone("Character1_LeftHand", "y", 70, 2.5f, 0);
-        gameObject.GetComponent<UniBone>().decideRotationBone("Character1_RightHand", "y", -70, 2.5f, 0);
-        gameObject.GetComponent<UniBone>().decideRotationBone("Character1_Spine", "z", 10, 2.5f, 0);        
-        gameObject.GetComponent<UniBone>().setDefaultMotion(6);
-        streachFace();
+        yield return new WaitForSeconds(0.05f);
+
+        gameObject.GetComponent<UniBone>().DecideRotationBones("Character1_LeftArm", "yz", new float[2] { 20, -155 }, 2.0f, 0);
+        gameObject.GetComponent<UniBone>().DecideRotationBones("Character1_RightArm", "yz", new float[2] { -20, -155 }, 2.0f, 0);
+        gameObject.GetComponent<UniBone>().DecideRotationBone("Character1_LeftHand", "y", 70, 2.5f, 0);
+        gameObject.GetComponent<UniBone>().DecideRotationBone("Character1_RightHand", "y", -70, 2.5f, 0);
+        gameObject.GetComponent<UniBone>().DecideRotationBone("Character1_Spine", "z", 10, 2.5f, 0);
+        gameObject.GetComponent<UniBone>().SetDefaultMotion(6);
+        StreachFace();
         yield return new WaitForSeconds(6.5f);
-        defaultFace();
+        DefaultFace();
     }
 
-    private void streachFace(){      
-        gameObject.GetComponent<UniExpression>().moveBlw(75, 1, "blendShape3.BLW_ANG1");
-        gameObject.GetComponent<UniExpression>().moveEye(80, 1, "blendShape2.EYE_SMILE1");
-        gameObject.GetComponent<UniExpression>().moveEye(100, 1, "blendShape2.EYE_SMILE2");
-        gameObject.GetComponent<UniExpression>().moveEye(10, 1, "blendShape2.EYE_DEF_C");
-        gameObject.GetComponent<UniExpression>().moveEl(40, 1, "blendShape2.EYE_SMILE1");
-        gameObject.GetComponent<UniExpression>().moveEl(35, 1, "blendShape2.EYE_DEF_C");
+    /// <summary>
+    /// 手を組んで伸びをするモーション用の顔にする。
+    /// </summary>
+    private void StreachFace()
+    {
+        gameObject.GetComponent<UniExpression>().MoveBlw(75, 1, "blendShape3.BLW_ANG1");
+        gameObject.GetComponent<UniExpression>().MoveEye(80, 1, "blendShape2.EYE_SMILE1");
+        gameObject.GetComponent<UniExpression>().MoveEye(100, 1, "blendShape2.EYE_SMILE2");
+        gameObject.GetComponent<UniExpression>().MoveEye(10, 1, "blendShape2.EYE_DEF_C");
+        gameObject.GetComponent<UniExpression>().MoveEl(40, 1, "blendShape2.EYE_SMILE1");
+        gameObject.GetComponent<UniExpression>().MoveEl(35, 1, "blendShape2.EYE_DEF_C");
     }
 
-    // 待機モーション(ランダム)
-    private void setStandbyMotion()
+    /// <summary>
+    /// 待機モーションを設定する。
+    /// </summary>
+    private void SetStandbyMotion()
     {
         int motionNum = UnityEngine.Random.Range(0, 10);
 
         if (motionNum >= 5)
         {
-            overlooking();
+            Overlooking();
         }
         else
         {
-            StartCoroutine("streach");
+            StartCoroutine("Streach");
         }
     }
 }

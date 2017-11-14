@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-// Unityちゃんにタッチしたときの挙動設定クラス
+/// <summary>
+/// Unityちゃんにタッチしたときの挙動を設定するクラス。
+/// </summary>
 public class UniTouch : MonoBehaviour
 {
 
@@ -17,7 +19,6 @@ public class UniTouch : MonoBehaviour
         it = obj.GetComponent<InputText>();
     }
 
-    // Unityちゃんにタッチ
     public void OnMouseDown()
     {
         // 初期化
@@ -32,17 +33,17 @@ public class UniTouch : MonoBehaviour
         {
             expression = "angry";
             // 怒り顔をさせる
-            gameObject.GetComponent<UniMotion>().setMotion("angry",1);
+            gameObject.GetComponent<UniMotion>().SetMotion("angry", 1);
         }
         else if (transform.tag.Equals("Unitychan_hair"))
         {
-            
+
             expression = "relux";
             // いい顔をさせる
-            gameObject.GetComponent<UniMotion>().setMotion("female",1);
+            gameObject.GetComponent<UniMotion>().SetMotion("female", 1);
         }
         // 返答を設定
-        it.setExpressionMessage(expression);
-        
+        it.SetExpressionMessage(expression);
+
     }
 }

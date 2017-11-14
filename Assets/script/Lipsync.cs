@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// リップシンククラス
+/// <summary>
+/// リップシンククラス。
+/// </summary>
 public class Lipsync : MonoBehaviour
 {
     private GameObject obj;
@@ -24,11 +26,14 @@ public class Lipsync : MonoBehaviour
         if (Parameter.isTalking || weight > 0)
         {
             // リップシンク
-            doLipSync();
+            DoLipSync();
         }
     }
 
-    private void doLipSync()
+    /// <summary>
+    /// リップシンク（口パク）を行う。
+    /// </summary>
+    private void DoLipSync()
     {
         if (weight < 0)
         {
