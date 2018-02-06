@@ -41,7 +41,7 @@ public class Connection : MonoBehaviour
             // リクエスト送信(TalkAPI)
             yield return request.Send();
 
-            if (request.isError)
+            if (request.isNetworkError)
             {
                 Debug.Log("error:" + request.error);
             }
@@ -129,7 +129,6 @@ public class Connection : MonoBehaviour
         Dictionary<string, string> headers = new Dictionary<string, string>();
         headers["Content-Type"] = "application/ssml+xml";
         headers["Accept"] = "audio/L16";
-        headers["Content-Length"] = data.Length.ToString();
         WWW www = new WWW(url, data, headers);
         yield return www;
         if (www.error != null)
